@@ -26,8 +26,8 @@ def main():
         aruco_id_dict[i]=b
     get_squares(img_edges)
     final_copy=img.copy()
-    cv2.imshow("DD",final_copy)
     Result=cv2.imwrite('Python/Output.jpg',final_copy)
+    cv2.imshow("Output",Result)
     cv2.waitKey(0)
 #######################
 def find_aruco_prop(the_img):
