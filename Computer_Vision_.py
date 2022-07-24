@@ -14,8 +14,7 @@ _,thresh=cv2.threshold(img_gray,200,255,cv2.THRESH_BINARY)
 
 aruco_list=['Python/Ha.jpg','Python/LMAO.jpg','Python/XD.jpg','Python/HaHa.jpg']
 aruco_id_dict={}
-
-color_val={'green':[79,209,146],'orange':[9,127,240],'black':[0,0,0],'pink/peach':[210,22,228]}
+color_val={'green':[[40,84],[150,255],[0,170]],'orange':[[0,60],[90,140],[220,255]],'black':[[0,20],[0,20],[0,20]],'pink/peach':[[150,220],[200,230],[220,255]]}
 color_id={'green':1,'orange':2,'black':3,'pink/peach':4}
 #######################
 def main():
@@ -26,8 +25,8 @@ def main():
         aruco_id_dict[i]=b
     get_squares(img_edges)
     final_copy=img.copy()
-    Result=cv2.imwrite('Python/Output.jpg',final_copy)
-    cv2.imshow("Output",Result)
+    Result=cv2.imwrite('Python/Output.jpg',img)
+    cv2.imshow("Output",img)
     cv2.waitKey(0)
 #######################
 def find_aruco_prop(the_img):
@@ -110,9 +109,9 @@ def get_squares(imgex):
                 co_ord=[all_co[0].tolist() for all_co in approxx]
                 centre=(int((co_ord[0][0]+co_ord[2][0])/2),int((co_ord[0][1]+co_ord[2][1])/2))
                 for i in color_val.keys():
-                    vals=np.array(color_val[i])
-                    vals.reshape((3,))
-                    if (vals==img_copy[centre[1],centre[0],:]).any():
+                    vals=color_val[i]
+                    img_vals=img_copy[centre[1],centre[0],:]
+                    if (vals[0][0]<=img_vals[0] and img_vals[0]<=vals[0][1] and vals[1][0]<=img_vals[1] and img_vals[1]<=vals[1][1] and vals[2][0]<=img_vals[2] and img_vals[2]<=vals[2][1]):
                         abc=np.array(color_id[i])
                         abc.reshape((1,1))
                         for j in aruco_id_dict.keys():
